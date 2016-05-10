@@ -1,8 +1,3 @@
-
-var deg2rad = function(deg){
-  return deg * (Math.PI/180)
-}
-
 var getGeoAddresses = function(){
 	//return [{lat: 19.7932155, lon:73.17453854}, {lat: 13.63366955 , lon: 75.50841796}, {lat: 69.77948982, lon: 121.51802633}]
 	//return [{"lat":"-35.49655152","lon":"3.09307686"},{"lat":"-68.26689043","lon":"130.31766822"},{"lat":"-48.18614955","lon":"30.60682786"}]
@@ -12,69 +7,6 @@ var getGeoAddresses = function(){
 	return [{"lat":"2.71724309","lon":"54.07017441"},{"lat":"-17.96708573","lon":"174.84525591"},{"lat":"54.47768055","lon":"-26.80157402"},{"lat":"3.07498121","lon":"63.43894036"}]
 
 }
-
-
-var calculateDistanceFrom = function(lat, lon){
-	
-	var geoAddresses = getGeoAddresses();
-	var R = 6371; // Radius of the earth in km
-	var distance = [];
-	var latDegree = lat * 0.017453;
-	var i;
-	
-	for (i = 0; i < geoAddresses.length; i++){
-		
-		var latitude = geoAddresses[i].lat;
-		var longitude = geoAddresses[i].lon;
-		
-		var dLat = (latitude - lat) * 0.017453; //deg2rad(latitude - lat);
-		var dLon = (longitude - lon) * 0.017453; //deg2rad(longitude - lon);
-		
- 		var a = 
-		    Math.sin(dLat/2) * Math.sin(dLat/2) +
-		    Math.cos(latDegree) * Math.cos(latitude * 0.017453) * 
-		    Math.sin(dLon/2) * Math.sin(dLon/2)
-		    ;
-			
-		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-		
-		var d = R * c; // Distance in Km
-		
-		if(d < 20000){
-			return d;
-		}
-		
-	}
-	
-	//return distance.sort();
-	
-}
-
-var getDistanceToPoint = function(latitude, longitude){
-
-	// Check if the User's current Latitude and Longitude are available
-	if(currentLat && currentLng)
-	{
-		// Convert degrees to a radius
-		function degreeToRadius(degree)
-		{
-			return degree * (Math.PI/180)
-		}
-
-		// Variable to store radius of the Earth in Km
-		var earthRadius = 6371;
-		
-		// Calculate the distance between the two points
-		var dLat = degreeToRadius(Latitude-currentLat);
-		var dLon = degreeToRadius(Longitude-currentLng); 
-		var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(degreeToRadius(currentLat)) * Math.cos(degreeToRadius(Latitude)) * Math.sin(dLon/2) * Math.sin(dLon/2); 
-		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-		var d = earthRadius * c;
-		return d;
-	}
-	return "-1";
-}
-
 
 var calculateDistance = function(currentLat, currentLng){
 
@@ -104,8 +36,6 @@ var calculateDistance = function(currentLat, currentLng){
 	}).sort(function(a, b){
 	    return a.distance - b.distance;
 	});
-
-	//console.log(geoAddresses);
 }
 
 
